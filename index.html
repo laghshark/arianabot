@@ -102,8 +102,24 @@
       .cta .btn{ width:100%; justify-content:center; }
 
       .blob{ display:none; } /* 모바일에서 배경 블롭으로 인한 가로 스크롤 방지 */
-      .side .art{ aspect-ratio: 1/1; }
+      .side .art{aspect-ratio: 1/1; border-radius: 28px; background: none; border: none; box-shadow: none; overflow:hidden}
       .pfp{ position:relative; bottom:auto; right:auto; width:min(78vw, 360px); margin: .8rem auto 0; }
+
+      .grid.cols-2{ grid-template-columns: 1fr; }
+      .grid.cols-3{ grid-template-columns: 1fr; }
+
+      details.ac summary{ padding: 1rem; font-size: 1rem; }
+      details.ac .content{ padding: 0 1rem 1rem 1rem; }
+
+      footer .card{ flex-direction: column; align-items: flex-start !important; }
+      footer .card .btn{ width: 100%; justify-content:center; }
+
+      /* 모바일에서 사진이 절대 잘리지 않도록 */
+      .pfp-img{ object-fit: contain !important; object-position: 50% 50% !important; }
+    }
+    .pfp-ring{display:none !important}
+    .pfp::before{content:none !important}
+    .pfp-img{position:relative; z-index:1; width:100%; height:100%; box-sizing:border-box; object-fit:cover; object-position:50% 50%; border-radius:18px; box-shadow: var(--shadow)}
 
       .grid.cols-2{ grid-template-columns: 1fr; }
       .grid.cols-3{ grid-template-columns: 1fr; }
@@ -119,7 +135,6 @@
     @media (pointer:coarse), (hover:none){
       .blob{ display:none !important; }
       html, body{ overflow-x: hidden; }
-    }
     }
 
     /* Accordion */
@@ -139,9 +154,9 @@
     .avatar{display:none} /* deprecated */
     /* 896x896 프로필 프레임 */
     .pfp{position:absolute; bottom:6%; right:6%; width:clamp(200px, 48%, 440px); aspect-ratio:1/1; border-radius:24px; display:grid; place-items:center}
-    .pfp-ring{position:absolute; inset:-10px; border-radius:32px; background:conic-gradient(from 210deg, var(--brand), var(--brand-2), var(--brand)); box-shadow:0 10px 30px #0006}
-    .pfp::before{content:""; position:absolute; inset:0; border-radius:24px; background:var(--glass); border:1px solid var(--border); backdrop-filter: blur(12px) saturate(120%)}
-    .pfp-img{position:relative; z-index:1; width:calc(100% - 16px); height:calc(100% - 16px); object-fit:cover; border-radius:18px; box-shadow: var(--shadow)} 
+    .pfp-ring{position:absolute; top:50%; left:50%; width:calc(100% + 20px); height:calc(100% + 20px); transform:translate(-50%,-50%); border-radius:32px; background:conic-gradient(from 210deg, var(--brand), var(--brand-2), var(--brand)); box-shadow:0 10px 30px #0006; pointer-events:none}
+    .pfp::before{content:none !important}
+    .pfp-img{position:relative; z-index:1; width:100%; height:100%; padding:0; box-sizing:border-box; object-fit:cover; border-radius:18px; box-shadow: var(--shadow)} 
     .caption{margin-top: .9rem; color: var(--muted); text-align:center}
 
     /* Sticky apply bar */
@@ -215,30 +230,15 @@
       <div class="side">
         <div class="art">
           <div class="art-inner">
-            <!-- Decorative SVG stars -->
-            <svg viewBox="0 0 200 200" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" aria-hidden>
-              <defs>
-                <radialGradient id="glow" cx="50%" cy="40%" r="60%">
-                  <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
-                  <stop offset="60%" stop-color="#9fb7ff" stop-opacity="0.2"/>
-                  <stop offset="100%" stop-color="transparent"/>
-                </radialGradient>
-              </defs>
-              <circle cx="90" cy="70" r="32" fill="url(#glow)"/>
-              <g fill="#cfe1ff">
-                <circle cx="40" cy="30" r="2"/>
-                <circle cx="160" cy="26" r="1.6"/>
-                <circle cx="176" cy="120" r="2"/>
-                <circle cx="22" cy="140" r="1.8"/>
-                <circle cx="120" cy="176" r="1.4"/>
-              </g>
-            </svg>
-            <!-- Ari image (Google Drive) with 896x896 frame -->
-            <div class="pfp" aria-label="아리아나봇 프로필 프레임 (896x896)">
+            <!-- Image only: fill this area with the profile image & ring -->
+            <div class="pfp" aria-label="아리아나봇 프로필 프레임 (896x896)" style="position:absolute; inset:0; width:100%; height:100%;">
               <div class="pfp-ring" aria-hidden="true"></div>
-              <img id="ari-img" class="pfp-img" src="https://drive.google.com/uc?export=view&id=1VtTxmYqK2X27p7ZDx8kzaHR78w6ds4TK" alt="아리아나봇 이미지 896x896" loading="lazy" referrerpolicy="no-referrer" />
+              <picture id="ari-picture">
+                <source media="(max-width: 640px)" srcset="https://i.postimg.cc/fTLdFRCs/1744618988471.jpg">
+                <source media="(min-width: 641px)" srcset="https://i.postimg.cc/fTLdFRCs/1744618988471.jpg">
+                <img id="ari-img" class="pfp-img" src="https://i.postimg.cc/fTLdFRCs/1744618988471.jpg" alt="아리아나봇 이미지 896x896" decoding="async" />
+              </picture>
             </div>
-            <div class="shine"></div>
           </div>
         </div>
         <p class="caption">디지털 세계에서 온 다정한 비서, <strong>아리</strong>가 당신의 채팅방을 반짝이게 해줘요 ✨</p>
@@ -492,49 +492,25 @@
 
   <script>
     // =============================
-    // Smooth anchor scroll (호환성 개선)
+    // 프로필 이미지 폴백 처리 (일반 URL)
     // =============================
-    (function smoothAnchors(){
-      try{
-        var anchors = Array.from(document.querySelectorAll('a[href^="#"]'));
-        anchors.forEach(function(a){
-          a.addEventListener('click', function(e){
-            var id = a.getAttribute('href');
-            if(!id || id.length <= 1) return; // '#' 단독 제외
-            e.preventDefault();
-            var target = document.querySelector(id);
-            if(target){
-              // 옵션 미지원 환경 대비
-              try{ target.scrollIntoView({behavior:'smooth', block:'start'}); }
-              catch(_){ target.scrollIntoView(); }
-            } else {
-              // 앵커가 없으면 해시만 이동 (폴백)
-              location.hash = id.substring(1);
-            }
-          });
-        });
-      }catch(err){
-        console.error('[smoothAnchors] 초기화 실패:', err);
-      }
-    })();
-
-    // =============================
-    // Google Drive 이미지 폴백 처리
-    // =============================
-    (function fixDriveImage(){
-      var id = '1VtTxmYqK2X27p7ZDx8kzaHR78w6ds4TK';
+    (function fixProfileImage(){
       var img = document.getElementById('ari-img');
-      if(!img) return;
-      var sources = [
-        'https://drive.google.com/uc?export=view&id=' + id,
-        'https://drive.google.com/uc?id=' + id,
-        'https://drive.google.com/thumbnail?id=' + id + '&sz=w1600'
-      ];
-      var i = 0;
+      var frame = document.querySelector('.pfp');
+      if(!img || !frame) return;
+      var url = 'https://i.postimg.cc/fTLdFRCs/1744618988471.jpg';
+      var tried = false;
       img.addEventListener('error', function(){
-        if(i < sources.length - 1){
-          i++;
-          img.src = sources[i];
+        if(tried) {
+          // 최후 폴백: 배경으로 표시
+          frame.style.backgroundImage = 'url(' + url + ')';
+          frame.style.backgroundSize = 'cover';
+          frame.style.backgroundPosition = 'center';
+          img.style.display = 'none';
+        } else {
+          tried = true;
+          img.removeAttribute('referrerpolicy');
+          img.src = url; // 재시도
         }
       });
     })();
