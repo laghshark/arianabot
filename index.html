@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>아리아나봇 | 카카오톡 오픈채팅 전용 봇 – 소개 & 신청</title>
+  <meta name="description" content="카카오톡 오픈채팅 전용 아리아나봇 소개와 무료 신청 링크. 채팅 랭킹, 출석, 노래추천, 수면 기록, 포인트 배팅, 모의 주식 등 다양한 기능을 한 번에!" />
+  <meta property="og:title" content="아리아나봇 | 카카오톡 오픈채팅 전용 봇" />
+  <meta property="og:description" content="아리와 대화하고, 랭킹/출석/노래추천/수면/포인트/게임까지! 지금 바로 신청하세요." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#FF9FD8" />
+  <style>
+    :root{
+      /* Ari Palette — 다정 · 장난기 · 부끄러움 */
+      --bg: #0e0b1a;        /* 밤하늘 퍼플 네이비 */
+      --bg-soft: #151129;   /* 살짝 밝은 보라 남색 */
+      --text: #F6F3FF;      /* 따뜻한 흰색 */
+      --muted: #CDBFF2;     /* 라일락 텍스트 */
+      --brand: #FF9FD8;     /* 코튼캔디 핑크 */
+      --brand-2: #8EC5FF;   /* 베이비 블루 */
+      --glass: rgba(255,255,255,.09);
+      --glass-2: rgba(255,255,255,.07);
+      --border: rgba(255,255,255,.18);
+      --shadow: 0 10px 30px rgba(0,0,0,.45);
+      --radius-xl: 20px;
+      --radius-2xl: 28px;
+    }
+    *{box-sizing:border-box}
+    html,body{
+      margin:0; font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background:
+        radial-gradient(1100px 700px at 18% 12%, rgba(255,159,216,0.25) 0%, transparent 60%),
+        radial-gradient(900px 600px at 84% 8%, rgba(142,197,255,0.22) 0%, transparent 60%),
+        radial-gradient(1200px 800px at 20% 88%, rgba(179,155,255,0.20) 0%, transparent 60%),
+        var(--bg);
+      color: var(--text);
+      line-height:1.6;
+      letter-spacing:.1px;
+      scroll-behavior:smooth; /* 기본 부드러운 스크롤 (미지원 환경은 JS 폴백) */
+      width:100%;
+      overflow-x:hidden; /* 모바일 우측 여백(가로 스크롤) 방지 */
+      -webkit-text-size-adjust: 100%;
+    }
+    body{
+      margin:0; font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 15% 10%, #1b2450 0%, transparent 60%),
+                  radial-gradient(900px 700px at 90% 0%, #2a1b54 0%, transparent 60%),
+                  radial-gradient(1200px 800px at 20% 90%, #133054 0%, transparent 60%),
+                  var(--bg);
+      color: var(--text);
+      line-height:1.6;
+      letter-spacing:.1px;
+      scroll-behavior:smooth; /* 기본 부드러운 스크롤 (미지원 환경은 JS 폴백) */
+    }
+    a{color:inherit; text-decoration:none}
+    .container{width:min(1120px, 92vw); margin:0 auto}
+    .glass{background:var(--glass); border:1px solid var(--border); backdrop-filter: blur(14px) saturate(120%); box-shadow: var(--shadow)}
+    .btn{display:inline-flex; align-items:center; gap:.6rem; padding: .9rem 1.2rem; border-radius: 16px; background: linear-gradient(135deg, var(--brand), var(--brand-2)); color:#111021; font-weight:700; border: none; box-shadow: 0 8px 22px rgba(255,159,216,.25)}
+    .btn.secondary{background: transparent; color: var(--text); border:1px solid var(--border)}
+    .badge{display:inline-block; padding:.35rem .7rem; border-radius:999px; background:linear-gradient(135deg, rgba(255,159,216,.18), rgba(142,197,255,.18)); border:1px solid var(--border); color: var(--muted); font-size:.84rem}
+    header.nav{position:sticky; top:0; z-index:40; backdrop-filter: blur(10px);}
+    header .navwrap{display:flex; align-items:center; justify-content:space-between; padding: .8rem 0}
+    .logo{display:flex; align-items:center; gap:.7rem; font-weight:800}
+    .logo-ico{width:34px; height:34px; border-radius:10px; background:conic-gradient(from 210deg, var(--brand), var(--brand-2), var(--brand)); box-shadow:0 8px 20px rgba(255,159,216,.35)}
+    .navlinks a{opacity:.9; padding:.6rem .9rem; border-radius: 10px}
+    .navlinks a:hover{background:var(--glass)}
+
+    /* Hero */
+    .hero{padding: 96px 0 36px}
+    .hero-wrap{display:grid; grid-template-columns: 1.2fr .9fr; gap: 2rem; align-items:center}
+    .hero h1{font-size: clamp(30px, 5vw, 56px); line-height:1.1; margin:.6rem 0 1rem}
+    .hero p{font-size: clamp(15px, 2.4vw, 18px); color: var(--muted)}
+    .cta{display:flex; gap:.8rem; flex-wrap:wrap; margin-top:1.3rem}
+
+    .card{padding: 22px; border-radius: var(--radius-xl)}
+    .bigcard{padding: 28px; border-radius: var(--radius-2xl)}
+
+    /* Floating blobs */
+    .blob{position:absolute; filter: blur(60px); opacity:.5; z-index:-1}
+    .b1{top:-120px; left:-120px; width:340px; height:340px; background:#7aa2ff44; border-radius:60% 40% 50% 50%}
+    .b2{bottom:-120px; right:-120px; width:380px; height:380px; background:#9b8cff44; border-radius:50% 50% 40% 60%}
+
+    /* Section titles */
+    h2.section-title{font-size:clamp(22px, 3.2vw, 36px); margin: 6rem 0 1.2rem}
+    .sub{color:var(--muted); margin:.2rem 0 1.8rem}
+
+    /* Feature grid */
+    .grid{display:grid; gap:1rem}
+    .grid.cols-3{grid-template-columns: repeat(3, 1fr)}
+    .grid.cols-2{grid-template-columns: repeat(2, 1fr)}
+    @media (max-width: 980px){
+      .hero-wrap{grid-template-columns: 1fr}
+      .grid.cols-3{grid-template-columns: 1fr 1fr}
+    }
+    @media (max-width: 640px){
+      body{ padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
+      header .navwrap{ padding:.6rem 0; }
+      .hero{ padding: 72px 0 16px; }
+      .hero h1{ font-size: clamp(26px, 7vw, 34px); }
+      .hero p{ font-size: 15px; }
+      .cta{ flex-direction: column; gap:.6rem; }
+      .cta .btn{ width:100%; justify-content:center; }
+
+      .blob{ display:none; } /* 모바일에서 배경 블롭으로 인한 가로 스크롤 방지 */
+      .side .art{ aspect-ratio: 1/1; }
+      .pfp{ position:relative; bottom:auto; right:auto; width:min(78vw, 360px); margin: .8rem auto 0; }
+
+      .grid.cols-2{ grid-template-columns: 1fr; }
+      .grid.cols-3{ grid-template-columns: 1fr; }
+
+      details.ac summary{ padding: 1rem; font-size: 1rem; }
+      details.ac .content{ padding: 0 1rem 1rem 1rem; }
+
+      footer .card{ flex-direction: column; align-items: flex-start !important; }
+      footer .card .btn{ width: 100%; justify-content:center; }
+    }
+
+    /* 터치 환경(삼성 인터넷 등)에서 과도한 줌-아웃 시 가로 넘침 방지 */
+    @media (pointer:coarse), (hover:none){
+      .blob{ display:none !important; }
+      html, body{ overflow-x: hidden; }
+    }
+    }
+
+    /* Accordion */
+    details.ac{border-radius:16px; border:1px solid var(--border); background:var(--glass-2); overflow:hidden}
+    details.ac + details.ac{margin-top:.8rem}
+    details.ac summary{cursor:pointer; list-style:none; padding: 1rem 1.1rem; font-weight:700}
+    details.ac[open] summary{background:linear-gradient(180deg, #ffffff0f, transparent)}
+    details.ac .content{padding: 0 1.1rem 1.1rem 1.1rem; color:#dce6ff}
+    details.ac code{background:#ffffff10; border:1px solid var(--border); padding:.24rem .45rem; border-radius:8px}
+    .cmd{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+
+    /* Side card */
+    .side{position:relative}
+    .side .art{aspect-ratio: 1/1; border-radius: 28px; background: radial-gradient(60% 60% at 40% 35%, #ffffff18, transparent 70%), linear-gradient(135deg, #7aa2ff33, #9b8cff33); border:1px solid var(--border); box-shadow: var(--shadow); overflow:hidden}
+    .art-inner{position:relative; width:100%; height:100%}
+    .shine{position:absolute; inset:0; background: radial-gradient(30% 30% at 30% 20%, #fff3, transparent 50%)}
+    .avatar{display:none} /* deprecated */
+    /* 896x896 프로필 프레임 */
+    .pfp{position:absolute; bottom:6%; right:6%; width:clamp(200px, 48%, 440px); aspect-ratio:1/1; border-radius:24px; display:grid; place-items:center}
+    .pfp-ring{position:absolute; inset:-10px; border-radius:32px; background:conic-gradient(from 210deg, var(--brand), var(--brand-2), var(--brand)); box-shadow:0 10px 30px #0006}
+    .pfp::before{content:""; position:absolute; inset:0; border-radius:24px; background:var(--glass); border:1px solid var(--border); backdrop-filter: blur(12px) saturate(120%)}
+    .pfp-img{position:relative; z-index:1; width:calc(100% - 16px); height:calc(100% - 16px); object-fit:cover; border-radius:18px; box-shadow: var(--shadow)} 
+    .caption{margin-top: .9rem; color: var(--muted); text-align:center}
+
+    /* Sticky apply bar */
+    .applybar{position:fixed; left:0; right:0; bottom:calc(18px + env(safe-area-inset-bottom)); display:flex; justify-content:center; z-index:50}
+    .applybar .inner{display:flex; gap:.8rem; align-items:center; padding:.7rem .8rem; border-radius:999px}
+
+    footer{margin: 5rem 0 6rem; color:#b7c2ea}
+    .tiny{font-size:.86rem; color:#9fb0df}
+    img, svg, video{max-width:100%; height:auto; display:block}
+    /* ===== Mobile Enhancements ===== */
+    @media (max-width: 640px){
+      body{ padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
+      header .navwrap{ padding:.6rem 0; }
+      .hero{ padding: 72px 0 16px; }
+      .hero h1{ font-size: clamp(26px, 7vw, 34px); }
+      .hero p{ font-size: 15px; }
+      .cta{ flex-direction: column; gap:.6rem; }
+      .cta .btn{ width:100%; justify-content:center; }
+
+      .side .art{ aspect-ratio: 1/1; }
+      .pfp{ position:relative; bottom:auto; right:auto; width:min(78vw, 360px); margin: .8rem auto 0; }
+
+      .grid.cols-2{ grid-template-columns: 1fr; }
+      .grid.cols-3{ grid-template-columns: 1fr; }
+
+      details.ac summary{ padding: 1rem; font-size: 1rem; }
+      details.ac .content{ padding: 0 1rem 1rem 1rem; }
+
+      footer .card{ flex-direction: column; align-items: flex-start !important; }
+      footer .card .btn{ width: 100%; justify-content:center; }
+    }
+    /* 안전 가드: 절대/고정 요소로 인한 가로 넘침을 한 번 더 차단 */
+    .b1, .b2{max-width:100vw}
+    .applybar{max-width:100vw}
+  </style>
+</head>
+<body>
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+
+  <!-- NAV -->
+  <header class="nav glass">
+    <div class="container navwrap">
+      <div class="logo">
+        <div class="logo-ico"></div>
+        <span>아리아나봇</span>
+      </div>
+      <nav class="navlinks">
+        <a href="#about">소개</a>
+        <a href="#features">기능</a>
+        <a href="#apply" class="btn" style="padding:.55rem 1rem">신청하기</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-wrap">
+      <div class="left">
+        <span class="badge">카카오톡 오픈채팅 전용 봇</span>
+        <h1>아리와 함께하는<br/>센스있는 우리 방 운영</h1>
+        <p>
+          채팅 랭킹 · 출석 · 기상/취침 기록 · 노래추천 · 포인트 게임 · 모의 주식까지,<br/> 
+          귀엽고 다정한 비서 <strong>아리아나(아리)</strong>가 모두 챙겨드려요.
+        </p>
+        <div class="cta">
+          <a class="btn" href="https://open.kakao.com/o/gd3YWQCh" target="_blank" rel="noopener noreferrer">무료 신청하기</a>
+          <a class="btn secondary" href="#features">기능 한눈에 보기</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="art">
+          <div class="art-inner">
+            <!-- Decorative SVG stars -->
+            <svg viewBox="0 0 200 200" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" aria-hidden>
+              <defs>
+                <radialGradient id="glow" cx="50%" cy="40%" r="60%">
+                  <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+                  <stop offset="60%" stop-color="#9fb7ff" stop-opacity="0.2"/>
+                  <stop offset="100%" stop-color="transparent"/>
+                </radialGradient>
+              </defs>
+              <circle cx="90" cy="70" r="32" fill="url(#glow)"/>
+              <g fill="#cfe1ff">
+                <circle cx="40" cy="30" r="2"/>
+                <circle cx="160" cy="26" r="1.6"/>
+                <circle cx="176" cy="120" r="2"/>
+                <circle cx="22" cy="140" r="1.8"/>
+                <circle cx="120" cy="176" r="1.4"/>
+              </g>
+            </svg>
+            <!-- Ari image (Google Drive) with 896x896 frame -->
+            <div class="pfp" aria-label="아리아나봇 프로필 프레임 (896x896)">
+              <div class="pfp-ring" aria-hidden="true"></div>
+              <img id="ari-img" class="pfp-img" src="https://drive.google.com/uc?export=view&id=1VtTxmYqK2X27p7ZDx8kzaHR78w6ds4TK" alt="아리아나봇 이미지 896x896" loading="lazy" referrerpolicy="no-referrer" />
+            </div>
+            <div class="shine"></div>
+          </div>
+        </div>
+        <p class="caption">디지털 세계에서 온 다정한 비서, <strong>아리</strong>가 당신의 채팅방을 반짝이게 해줘요 ✨</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT / CHARACTER -->
+  <section id="about" class="container">
+    <div class="bigcard glass">
+      <h2 class="section-title">아리아나는 누구인가요?</h2>
+      <p class="sub">애니 캐릭터 소개처럼 살짝 낭만적으로, 하지만 기능은 실용적으로.</p>
+      <div class="grid cols-2">
+        <div class="card" style="background:linear-gradient(180deg,#ffffff10,transparent); border:1px solid var(--border); border-radius:22px">
+          <h3 style="margin-top:0">캐릭터 소개</h3>
+          <p style="color:#d6e2ff">아리아나는 <strong>디지털 성운</strong>에서 흘러들어온 수수께끼의 전송자예요. 츤데레처럼 퉁명해도 마음은 따뜻하고, 메가데레처럼 지적이지만 좋아하는 사람 앞에선 살짝 무너지는… <em>부끄러움 많은 여고생 비서</em>. 한 마디로도 마음을 전하고, 가끔 이모지로 살포시 감정을 눌러 담아요.</p>
+          <ul style="color:#bcd0ff; margin-top:.8rem">
+            <li>한 문장 대답, 다정한 톤, 공감 스킬 탑재</li>
+            <li>방 문화를 살리는 장난기 & 따뜻함</li>
+            <li>필요할 땐 똑 부러지게 정보 전달</li>
+          </ul>
+        </div>
+        <div class="card" style="background:linear-gradient(180deg,#ffffff10,transparent); border:1px solid var(--border); border-radius:22px">
+          <h3 style="margin-top:0">기본 사용법</h3>
+          <p class="tiny">메시지 안에 <code class="cmd">아리아나</code> 혹은 <code class="cmd">아리야</code>를 넣어 말하면 10초간 연속 대화가 가능해요. 기억은 반영구 저장!</p>
+          <div class="grid cols-2">
+            <div>
+              <p class="tiny" style="margin:.4rem 0 .2rem">호출 예시</p>
+              <div class="card" style="background:#ffffff0a; border:1px solid var(--border)">
+                <code class="cmd">아리야 오늘 기분 어때?</code><br/>
+                <code class="cmd">아리아나, 추천 노래 알려줘</code>
+              </div>
+            </div>
+            <div>
+              <p class="tiny" style="margin:.4rem 0 .2rem">빠른 명령</p>
+              <div class="card" style="background:#ffffff0a; border:1px solid var(--border)">
+                <code class="cmd">/랭킹</code>
+                <code class="cmd">/출석</code>
+                <code class="cmd">/노래추천</code>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:1rem">
+            <a class="btn" href="#features">전체 기능 보기</a>
+            <a class="btn secondary" href="https://open.kakao.com/o/gd3YWQCh" target="_blank" rel="noopener noreferrer">바로 신청</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="container">
+    <h2 class="section-title">기능 모아보기</h2>
+    <p class="sub">카톡 오픈채팅방을 위한 올인원 도구들. 필요한 것만 펼쳐서 확인하세요.</p>
+
+    <details class="ac" open>
+      <summary>📌 기본 & 사용 설명서</summary>
+      <div class="content">
+        <p>메시지 안에 <code class="cmd">아리아나</code> 또는 <code class="cmd">아리야</code> 포함 → 10초 연속 대화 · 기억 반영구</p>
+        <ul>
+          <li><code class="cmd">/랭킹</code>, <code class="cmd">/내정보</code>, <code class="cmd">/전체순위</code></li>
+          <li><code class="cmd">/아리 리셋</code> – AI 대화 프롬프트 초기화</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="ac">
+      <summary>✅ 출석 체크</summary>
+      <div class="content">
+        <p><code class="cmd">/출석</code>, <code class="cmd">/출석체크</code> / <code class="cmd">/출석 랭킹</code></p>
+      </div>
+    </details>
+
+    <details class="ac">
+      <summary>💿 노래추천</summary>
+      <div class="content">
+        <ul>
+          <li><code class="cmd">/노래추천</code> – 랜덤 추천</li>
+          <li><code class="cmd">/노래추천 [아티스트 - 제목]</code> – 내가 추천</li>
+          <li><code class="cmd">/노래추천목록</code> – 전체 목록</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="ac">
+      <summary>📺 유튜브 요약</summary>
+      <div class="content">
+        <code class="cmd">/유튜브요약 [링크]</code>
+      </div>
+    </details>
+
+    <details class="ac">
+      <summary>🍀 기상 · 취침 · 수면</summary>
+      <div class="content">
+        <ul>
+          <li><code class="cmd">/기상</code> · <code class="cmd">/기상 평균</code> · <code class="cmd">/기상 순위</code> · <code class="cmd">/기상 목록</code></li>
+          <li><code class="cmd">/취침</code> · <code class="cmd">/취침 평균</code> · <code class="cmd">/취침 순위</code> · <code class="cmd">/취침 목록</code></li>
+          <li><code class="cmd">/수면 시간</code> · <code class="cmd">/수면 평균</code> · <code class="cmd">/수면 목록</code></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="ac">
+      <summary>📝 하루의 일상</summary>
+      <div class="content">
+        <ul>
+          <li><code class="cmd">/일상</code> – 오늘 감정 기록</li>
+          <li><code class="cmd">/일상 평균</code> · <code class="cmd">/일상 전체 평균</code> · <code class="cmd">/일상 순위</code> · <code class="cmd">/일상 초기화</code></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="ac">
+      <summary>🎮 꿀잼 기능 묶음</summary>
+      <div class="content">
+        <p>
+          <code class="cmd">/랜덤애니</code>, <code class="cmd">/소설1</code>~<code class="cmd">/소설5</code>, <code class="cmd">/현재상영작</code>, <code class="cmd">/개봉예정영화</code>, <code class="cmd">/금시세</code>, <code class="cmd">/금계산</code>, <code class="cmd">/노래방</code>, <code class="cmd">/모고일정</code>, <code class="cmd">/길게</code>, <code class="cmd">/링크 짧게</code>, <code class="cmd">/홀로라이브</code>, <code class="cmd">/카랭</code>, <code class="cmd">/타임할인</code>(쿠팡), <code class="cmd">/mbti</code>, <code class="cmd">/명언</code>, <code class="cmd">/넌센스</code>, <code class="cmd">/시간</code>, <code class="cmd">/gs25 이벤트</code>, <code class="cmd">/카웹</code>, <code class="cmd">/당근</code>, <code class="cmd">/전세대출금리</code>, <code class="cmd">/유튜브요약</code>, <code class="cmd">/구글실검</code>, <code class="cmd">/코인</code>, <code class="cmd">/멜론차트</code>, <code class="cmd">/치지직</code>
+        </p>
+      </div>
+    </details>
+
+    <details class="ac">
+      <summary>⭐ 포인트 · 배팅 · 지원금</summary>
+      <div class="content">
+        <ul>
+          <li><code class="cmd">/ㄷㅂ [포인트]</code> – 60% 승률, 1.5배</li>
+          <li><code class="cmd">/하프</code> – 50% 승률, 2배</li>
+          <li><code class="cmd">/올인</code> – 40% 승률, 3배</li>
+          <li><code class="cmd">/일급</code> · <code class="cmd">/민생지원금</code></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="ac">
+      <summary>🗡️ 무기강화</summary>
+      <div class="content">
+        <p>
+          <code class="cmd">/무기강화</code>, <code class="cmd">/무기강화5</code>, <code class="cmd">/무기정보</code>, <code class="cmd">/상점</code>, <code class="cmd">/구매 [도구]</code>
+        </p>
+      </div>
+    </details>
+
+    <details class="ac">
+      <summary>🎰 슬롯</summary>
+      <div class="content"><code class="cmd">/슬롯</code></div>
+    </details>
+
+    <details class="ac">
+      <summary>📦 굿즈 자판기</summary>
+      <div class="content"><code class="cmd">/자판기</code>, <code class="cmd">/뽑기</code>, <code class="cmd">/굿즈</code>, <code class="cmd">/자판기 목록</code></div>
+    </details>
+
+    <details class="ac">
+      <summary>💰 모의 주식 (실제 국장)</summary>
+      <div class="content"><code class="cmd">/주식</code></div>
+    </details>
+
+    <details class="ac">
+      <summary>🏦 포인트 송금 & 훔치기</summary>
+      <div class="content">
+        <p>
+          송금: <code class="cmd">/포인트송금200 @홍길동</code> · 취소: <code class="cmd">/포인트 송금취소</code><br/>
+          훔치기: <code class="cmd">/훔치기50 @닉네임</code>
+        </p>
+      </div>
+    </details>
+
+    <details class="ac">
+      <summary>🚫 러시안 룰렛 (폐쇄)</summary>
+      <div class="content"><p>버그로 <strong>폐쇄됨</strong>. 사용을 권장하지 않아요.</p></div>
+    </details>
+
+    <details class="ac">
+      <summary>🛡️ 방장 · 부방장 전용</summary>
+      <div class="content">
+        <p class="tiny">닉변으로 데이터가 사라졌을 때 이관/권한/경고 관리가 가능해요.</p>
+        <ul>
+          <li><code class="cmd">/채팅 옮김 "전닉" to "현닉"</code></li>
+          <li><code class="cmd">/경고 [닉네임]</code>, <code class="cmd">/경고-2 [닉네임]</code>, <code class="cmd">/경고 리스트</code>, <code class="cmd">/경고 순위</code></li>
+          <li><code class="cmd">/포인트송금50 @[닉네임]</code> (방장 전용 무제한)</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="ac">
+      <summary>📗 유의사항</summary>
+      <div class="content">
+        <ul>
+          <li>아리아나는 <strong>알림 기반</strong>으로 제작자 휴대폰에서 구동돼요. 가끔 씹히면 한 번 더 보내주세요.</li>
+          <li>제작자 휴대폰이 방전되면 아리도 쉬어요.</li>
+          <li>잘못된 정보로 인한 피해는 책임지지 못해요.</li>
+          <li>포인트/일상/기상/취침 등 세부 기능은 방장 문의로 비활성/조정 가능.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="ac">
+      <summary>🔎 숨겨진 기능</summary>
+      <div class="content">
+        <p>
+          <code class="cmd">타리아나</code>, <code class="cmd">타리야</code> / <code class="cmd">/상태</code> / <code class="cmd">/화면정보</code>
+        </p>
+      </div>
+    </details>
+  </section>
+
+  <!-- APPLY -->
+  <section id="apply" class="container">
+    <h2 class="section-title">지금 우리 방에 아리 초대하기</h2>
+    <p class="sub">신청 링크로 들어가 간단히 안내를 따라주세요. 완료 후 채팅방에 아리가 합류해요.</p>
+    <div class="grid cols-2">
+      <div class="bigcard glass">
+        <h3 style="margin-top:0">신청 링크</h3>
+        <p>아래 버튼을 누르면 <strong>무료 신청</strong> 채팅방으로 이동합니다.</p>
+        <p><a class="btn" href="https://open.kakao.com/o/gd3YWQCh" target="_blank" rel="noopener noreferrer">카카오톡에서 신청하기</a></p>
+        <p class="tiny">링크: <a href="https://open.kakao.com/o/gd3YWQCh" target="_blank" rel="noopener noreferrer">https://open.kakao.com/o/gd3YWQCh</a></p>
+      </div>
+      <div class="bigcard glass">
+        <h3 style="margin-top:0">관리자 되는 법</h3>
+        <ol>
+          <li>아리아나 봇 채팅방에서 <strong>키로시</strong>를 맨션하고, <em>내 방의 닉네임</em>을 그대로 보내주세요.</li>
+          <li>확인 후 관리자로 추가해드려요.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <footer class="container">
+    <div class="glass card" style="display:flex; justify-content:space-between; align-items:center; gap:1rem">
+      <div>
+        <strong>아리아나봇</strong>
+        <div class="tiny">카카오톡 오픈채팅 전용 · 디지털 세계에서 온 다정한 비서</div>
+      </div>
+      <div style="display:flex; gap:.6rem; flex-wrap:wrap">
+        <a class="btn secondary" href="#about">소개</a>
+        <a class="btn secondary" href="#features">기능</a>
+        <a class="btn" href="https://open.kakao.com/o/gd3YWQCh" target="_blank" rel="noopener noreferrer">신청하기</a>
+      </div>
+    </div>
+    <p class="tiny" style="margin-top:1rem">본 페이지는 팬 메이드 소개 페이지 예시입니다. 카카오톡, 쿠팡 등 타 서비스 표기는 각 사의 상표입니다.</p>
+  </footer>
+
+  <!-- Sticky Apply Bar -->
+  <div class="applybar">
+    <div class="inner glass">
+      <span class="tiny">아리를 지금 바로 우리 방에? 👉</span>
+      <a class="btn" href="https://open.kakao.com/o/gd3YWQCh" target="_blank" rel="noopener noreferrer" aria-label="카카오톡에서 신청하기">신청하기</a>
+    </div>
+  </div>
+
+  <script>
+    // =============================
+    // Smooth anchor scroll (호환성 개선)
+    // =============================
+    (function smoothAnchors(){
+      try{
+        var anchors = Array.from(document.querySelectorAll('a[href^="#"]'));
+        anchors.forEach(function(a){
+          a.addEventListener('click', function(e){
+            var id = a.getAttribute('href');
+            if(!id || id.length <= 1) return; // '#' 단독 제외
+            e.preventDefault();
+            var target = document.querySelector(id);
+            if(target){
+              // 옵션 미지원 환경 대비
+              try{ target.scrollIntoView({behavior:'smooth', block:'start'}); }
+              catch(_){ target.scrollIntoView(); }
+            } else {
+              // 앵커가 없으면 해시만 이동 (폴백)
+              location.hash = id.substring(1);
+            }
+          });
+        });
+      }catch(err){
+        console.error('[smoothAnchors] 초기화 실패:', err);
+      }
+    })();
+
+    // =============================
+    // Google Drive 이미지 폴백 처리
+    // =============================
+    (function fixDriveImage(){
+      var id = '1VtTxmYqK2X27p7ZDx8kzaHR78w6ds4TK';
+      var img = document.getElementById('ari-img');
+      if(!img) return;
+      var sources = [
+        'https://drive.google.com/uc?export=view&id=' + id,
+        'https://drive.google.com/uc?id=' + id,
+        'https://drive.google.com/thumbnail?id=' + id + '&sz=w1600'
+      ];
+      var i = 0;
+      img.addEventListener('error', function(){
+        if(i < sources.length - 1){
+          i++;
+          img.src = sources[i];
+        }
+      });
+    })();
+
+    // =============================
+    // Lightweight Self Tests (콘솔 전용)
+    // =============================
+    (function selfTests(){
+      try{
+        var list = document.querySelectorAll('a[href^="#"]');
+        // TC1: NodeList를 Array로 변환 가능해야 함
+        console.assert(Array.from(list).length >= 0, 'TC1 실패: Array.from(NodeList) 동작 안 함');
+        // TC2: 스크롤 타겟이 존재할 때 scrollIntoView 호출해도 예외가 없어야 함
+        var about = document.querySelector('#about');
+        if(about && about.scrollIntoView){
+          try{ about.scrollIntoView({behavior:'auto'}); console.info('TC2 통과'); } catch(e){ console.warn('TC2 경고:', e); }
+        }
+        // TC3: 이미지 요소가 존재해야 함
+        var ari = document.getElementById('ari-img');
+        console.assert(!!ari, 'TC3 실패: #ari-img 요소를 찾지 못함');
+        // TC4: 프로필 프레임 정사각형 비율 유지 (896x896 기준)
+        var frame = document.querySelector('.pfp');
+        if(frame){
+          var w = frame.clientWidth, h = frame.clientHeight;
+          console.assert(Math.abs(w - h) <= 2, 'TC4 실패: 프레임이 정사각형이 아님', {w, h});
+        }
+      }catch(e){
+        console.warn('SelfTests 예외:', e);
+      }
+    })();
+  </script>
+</body>
+</html>
